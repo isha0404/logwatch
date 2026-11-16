@@ -1,0 +1,28 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -e ".[dev]"
+      - run: pytest -v
+      - name: Smoke test the CLI on the sample log
+        run: logwatch scan samples/auth.log --year 2026 --report report.html || [ $? -eq 1 ]
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t logwatch .
+      - run: docker run --rm -v "$PWD/samples:/logs:ro" logwatch scan /logs/auth.log --year 2026 || [ $? -eq 1 ]

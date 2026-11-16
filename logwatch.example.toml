@@ -1,0 +1,22 @@
+# LogWatch configuration. Copy to logwatch.toml and pass with --config.
+# Every option is optional; these are the defaults.
+
+# BRUTE_FORCE: this many failed logins from one IP within the window
+brute_force_threshold = 10
+brute_force_window_seconds = 60
+
+# POSSIBLE_COMPROMISE: a successful login from an IP with this many failures in the lookback
+compromise_min_failures = 5
+compromise_lookback_seconds = 3600
+
+# ODD_HOURS: successful logins outside these hours (server local time) are flagged
+business_start_hour = 7
+business_end_hour = 20
+weekend_is_odd = false
+
+# NEW_SOURCE: flag users logging in from a network they've never used before
+new_source_enabled = true
+# state_file = "/var/lib/logwatch/state.json"
+
+# Never alert on these addresses (e.g. your monitoring server)
+allow_ips = []

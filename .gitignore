@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+report.html
+alerts.json
+state.json
+logwatch.toml
+.env
+# never commit real logs
+*.log
+!samples/auth.log
